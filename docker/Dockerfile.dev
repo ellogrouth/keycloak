@@ -1,0 +1,8 @@
+FROM quay.io/keycloak/keycloak:26.3.4
+
+COPY ./themes/ /opt/keycloak/themes/
+
+WORKDIR /opt/keycloak
+
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+CMD ["start-dev"]
