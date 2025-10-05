@@ -29,6 +29,11 @@ fi
 
 echo "✅ Variáveis de banco verificadas"
 
+# Configurar usuário administrador
+echo "👤 Configurando usuário administrador..."
+cd /opt/keycloak
+./bin/kc.sh bootstrap-admin user --username=admin --password=admin
+
 # Iniciar Keycloak
 echo "🎯 Iniciando Keycloak..."
-exec /opt/keycloak/bin/kc.sh start
+exec ./bin/kc.sh start
