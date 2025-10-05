@@ -49,6 +49,14 @@ services:
         value: 8080
       - key: PORT
         value: 8080
+      - key: KC_DB_URL_HOST
+        fromDatabase:
+          name: keycloak-db
+          property: host
+      - key: KC_DB_URL_PORT
+        fromDatabase:
+          name: keycloak-db
+          property: port
 
 databases:
   - name: keycloak-db

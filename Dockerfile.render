@@ -4,6 +4,10 @@ FROM quay.io/keycloak/keycloak:26.3.4
 # Copiar temas customizados
 COPY ./themes/ /opt/keycloak/themes/
 
+# Copiar script de inicialização
+COPY ./start-keycloak.sh /opt/keycloak/start-keycloak.sh
+RUN chmod +x /opt/keycloak/start-keycloak.sh
+
 # Configurar para produção
 ENV KC_DB=postgres
 ENV KC_CACHE=ispn
@@ -11,6 +15,10 @@ ENV KC_PROXY=edge
 ENV KC_HOSTNAME_STRICT=false
 ENV KC_HOSTNAME_STRICT_HTTPS=false
 ENV KC_HTTP_ENABLED=true
+
+# Configurar porta para o Render
+ENV KC_HTTP_PORT=8080
+ENV PORT=8080
 
 # Configurar cache de temas para produção
 ENV SPI_THEME_CACHE_THEMES=true
@@ -26,4 +34,4 @@ WORKDIR /opt/keycloak
 EXPOSE 8080
 
 # Comando para produção
-CMD ["start"]
+CMD ["/opt/keycloak/start-keycloak.sh"]
