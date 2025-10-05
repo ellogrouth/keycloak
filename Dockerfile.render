@@ -1,0 +1,26 @@
+# Dockerfile para Render
+FROM quay.io/keycloak/keycloak:26.3.4
+
+# Copiar temas customizados
+COPY ./themes/ /opt/keycloak/themes/
+
+# Configurar para produção
+ENV KC_DB=postgres
+ENV KC_CACHE=ispn
+ENV KC_PROXY=edge
+ENV KC_HOSTNAME_STRICT=false
+ENV KC_HOSTNAME_STRICT_HTTPS=false
+ENV KC_HTTP_ENABLED=true
+
+# Configurar cache de temas para produção
+ENV SPI_THEME_CACHE_THEMES=true
+ENV SPI_THEME_CACHE_TEMPLATES=true
+
+WORKDIR /opt/keycloak
+
+# Expor porta
+EXPOSE 8080
+
+# Comando para produção
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+CMD ["start"]

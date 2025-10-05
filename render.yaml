@@ -1,0 +1,53 @@
+services:
+  - type: web
+    name: keycloak
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    region: oregon
+    branch: main
+    healthCheckPath: /health
+    envVars:
+      - key: KEYCLOAK_ADMIN
+        value: admin
+      - key: KEYCLOAK_ADMIN_PASSWORD
+        generateValue: true
+      - key: KC_DB
+        value: postgres
+      - key: KC_DB_URL
+        fromDatabase:
+          name: keycloak-db
+          property: connectionString
+      - key: KC_DB_USERNAME
+        fromDatabase:
+          name: keycloak-db
+          property: user
+      - key: KC_DB_PASSWORD
+        fromDatabase:
+          name: keycloak-db
+          property: password
+      - key: KC_HOSTNAME
+        value: ${RENDER_EXTERNAL_URL}
+      - key: KC_PROXY
+        value: edge
+      - key: KC_HOSTNAME_STRICT
+        value: false
+      - key: KC_HOSTNAME_STRICT_HTTPS
+        value: false
+      - key: KC_CACHE
+        value: ispn
+      - key: KC_HTTP_ENABLED
+        value: true
+      - key: SPI_THEME_CACHE_THEMES
+        value: true
+      - key: SPI_THEME_CACHE_TEMPLATES
+        value: true
+      - key: KC_LOG_LEVEL
+        value: INFO
+
+databases:
+  - name: keycloak-db
+    plan: starter
+    region: oregon
+    databaseName: keycloak
+    user: keycloak_user
