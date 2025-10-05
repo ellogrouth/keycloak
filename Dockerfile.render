@@ -31,4 +31,4 @@ RUN /opt/keycloak/bin/kc.sh build
 EXPOSE 8080
 
 # Comando para produção
-CMD ["kc.sh", "start", "--optimized"]
+CMD ["start", "--optimized"]
