@@ -24,11 +24,8 @@ ENV SPI_THEME_CACHE_TEMPLATES=true
 
 WORKDIR /opt/keycloak
 
-# Build do Keycloak (necessário antes de start)
-RUN /opt/keycloak/bin/kc.sh build
-
 # Expor porta
 EXPOSE 8080
 
-# Comando para produção
-CMD ["start", "--optimized"]
+# Comando para produção (sem --optimized para permitir variáveis dinâmicas)
+CMD ["start"]
