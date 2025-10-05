@@ -2,11 +2,12 @@ services:
   - type: web
     name: keycloak
     env: docker
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./Dockerfile.render
     plan: starter
     region: oregon
     branch: main
     healthCheckPath: /health
+    port: 8080
     envVars:
       - key: KEYCLOAK_ADMIN
         value: admin
@@ -44,6 +45,10 @@ services:
         value: true
       - key: KC_LOG_LEVEL
         value: INFO
+      - key: KC_HTTP_PORT
+        value: 8080
+      - key: PORT
+        value: 8080
 
 databases:
   - name: keycloak-db

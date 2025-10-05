@@ -38,15 +38,15 @@ run-prod:
 # Comandos para Render
 build-render:
 	@echo "Buildando para Render"
-	docker build -f Dockerfile -t keycloak-render .
+	docker build -f Dockerfile.render -t keycloak-render .
 
 test-render:
 	@echo "Testando build do Render"
-	docker build -f Dockerfile -t keycloak-render .
+	docker build -f Dockerfile.render -t keycloak-render .
 
 test-render-full:
 	@echo "Testando build e execução completa do Render"
-	docker build -f Dockerfile -t keycloak-render . && \
+	docker build -f Dockerfile.render -t keycloak-render . && \
 	docker run --rm -p 8080:8080 keycloak-render
 
 deploy-render:
