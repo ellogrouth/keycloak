@@ -27,4 +27,4 @@ WORKDIR /opt/keycloak
 EXPOSE 8080
 
 # Comando para produção
-CMD ["start"]
+CMD ["/bin/sh", "-c", "echo '🚀 Iniciando Keycloak no Render...' && echo '📋 Verificando variáveis de ambiente:' && echo 'KC_DB: $KC_DB' && echo 'KC_DB_URL: $KC_DB_URL' && echo 'KC_DB_USERNAME: $KC_DB_USERNAME' && echo 'KC_HOSTNAME: $KC_HOSTNAME' && echo 'PORT: $PORT' && echo 'KC_HTTP_PORT: $KC_HTTP_PORT' && echo '⏳ Aguardando banco de dados...' && sleep 15 && echo '🎯 Iniciando Keycloak...' && /opt/keycloak/bin/kc.sh start"]

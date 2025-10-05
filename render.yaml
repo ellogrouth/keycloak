@@ -57,6 +57,12 @@ services:
         fromDatabase:
           name: keycloak-db
           property: port
+      - key: KC_DB_URL_DATABASE
+        fromDatabase:
+          name: keycloak-db
+          property: database
+      - key: KC_DB_URL_SCHEMA
+        value: public
 
 databases:
   - name: keycloak-db
