@@ -28,4 +28,4 @@ WORKDIR /opt/keycloak
 EXPOSE 8080
 
 # Comando para produção
-CMD ["/bin/bash", "/opt/keycloak/start-keycloak-render.sh"]
+CMD ["kc.sh", "start"]
