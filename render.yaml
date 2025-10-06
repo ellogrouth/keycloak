@@ -52,11 +52,11 @@ services:
       - key: PORT
         value: "8080"
       
+      # Health checks
       - key: KC_HEALTH_ENABLED
         value: "true"
-      - key: KC_METRICS_ENABLED
-        value: "false"
       
+      # Usar mesma porta para management
       - key: KC_HTTP_MANAGEMENT_PORT
         value: "8080"
       
