@@ -7,7 +7,6 @@ services:
     region: oregon
     branch: main
     healthCheckPath: /health/ready
-    port: 8080
     envVars:
       # Credenciais de Admin
       - key: KEYCLOAK_ADMIN
@@ -31,7 +30,7 @@ services:
           name: keycloak-db
           property: password
       
-      # Configuração de Rede e Proxy (CORRIGIDO)
+      # Configuração de Rede e Proxy
       - key: KC_PROXY_HEADERS
         value: xforwarded
       - key: KC_HOSTNAME_STRICT
@@ -39,7 +38,7 @@ services:
       - key: KC_HTTP_ENABLED
         value: "true"
       
-      # Configuração de Porta
+      # Configuração de Porta (Render detecta automaticamente via PORT)
       - key: KC_HTTP_PORT
         value: "8080"
       - key: PORT
