@@ -14,7 +14,7 @@ services:
       - key: KEYCLOAK_ADMIN_PASSWORD
         generateValue: true
       
-      # Configuração do Banco de Dados (CORRIGIDO)
+      # Configuração do Banco de Dados
       - key: KC_DB
         value: postgres
       - key: KC_DB_URL_HOST
@@ -52,11 +52,13 @@ services:
       - key: PORT
         value: "8080"
       
-      # Health checks e métricas
       - key: KC_HEALTH_ENABLED
         value: "true"
       - key: KC_METRICS_ENABLED
-        value: "true"
+        value: "false"
+      
+      - key: KC_HTTP_MANAGEMENT_PORT
+        value: "8080"
       
       # Configuração de Log
       - key: KC_LOG_LEVEL
