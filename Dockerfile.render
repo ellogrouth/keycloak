@@ -1,31 +1,38 @@
-FROM quay.io/keycloak/keycloak:26.3.4
+FROM quay.io/keycloak/keycloak:26.3.4 AS builder
 
 # Copiar temas customizados
 COPY ./themes/ /opt/keycloak/themes/
 
-# Copiar script de inicialização
-COPY --chmod=755 ./start-keycloak-render.sh /opt/keycloak/start-keycloak-render.sh
-
-# Configurar para produção
+# Configurações de build para produção
 ENV KC_DB=postgres
-ENV KC_CACHE=ispn
-ENV KC_PROXY=edge
-ENV KC_HOSTNAME_STRICT=false
-ENV KC_HOSTNAME_STRICT_HTTPS=false
+ENV KC_HEALTH_ENABLED=true
+ENV KC_METRICS_ENABLED=true
+
+# Build otimizado do Keycloak
+RUN /opt/keycloak/bin/kc.sh build
+
+FROM quay.io/keycloak/keycloak:26.3.4
+
+# Copiar build otimizado da etapa anterior
+COPY --from=builder /opt/keycloak/ /opt/keycloak/
+
+# Configurações para produção
+ENV KC_DB=postgres
+ENV KC_HEALTH_ENABLED=true
+ENV KC_METRICS_ENABLED=true
 ENV KC_HTTP_ENABLED=true
+ENV KC_PROXY_HEADERS=xforwarded
+ENV KC_HOSTNAME_STRICT=false
 
 # Configurar porta para o Render
 ENV KC_HTTP_PORT=8080
 ENV PORT=8080
-
-# Configurar cache de temas para produção
-ENV SPI_THEME_CACHE_THEMES=true
-ENV SPI_THEME_CACHE_TEMPLATES=true
 
 WORKDIR /opt/keycloak
 
 # Expor porta
 EXPOSE 8080
 
-# Comando para produção (sem --optimized para permitir variáveis dinâmicas)
-CMD ["start"]
+# Iniciar Keycloak em modo produção
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+CMD ["start", "--optimized", "--http-enabled=true", "--hostname-strict=false", "--proxy-headers=xforwarded"]

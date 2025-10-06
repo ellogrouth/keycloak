@@ -6,13 +6,16 @@ services:
     plan: starter
     region: oregon
     branch: main
-    healthCheckPath: /health
+    healthCheckPath: /health/ready
     port: 8080
     envVars:
+      # Credenciais de Admin
       - key: KEYCLOAK_ADMIN
         value: admin
       - key: KEYCLOAK_ADMIN_PASSWORD
         generateValue: true
+      
+      # Configuração do Banco de Dados
       - key: KC_DB
         value: postgres
       - key: KC_DB_URL
@@ -27,42 +30,30 @@ services:
         fromDatabase:
           name: keycloak-db
           property: password
-      - key: KC_HOSTNAME
-        value: ${RENDER_EXTERNAL_URL}
-      - key: KC_PROXY
-        value: edge
+      
+      # Configuração de Rede e Proxy (CORRIGIDO)
+      - key: KC_PROXY_HEADERS
+        value: xforwarded
       - key: KC_HOSTNAME_STRICT
-        value: false
-      - key: KC_HOSTNAME_STRICT_HTTPS
-        value: false
-      - key: KC_CACHE
-        value: ispn
+        value: "false"
       - key: KC_HTTP_ENABLED
-        value: true
-      - key: SPI_THEME_CACHE_THEMES
-        value: true
-      - key: SPI_THEME_CACHE_TEMPLATES
-        value: true
+        value: "true"
+      
+      # Configuração de Porta
+      - key: KC_HTTP_PORT
+        value: "8080"
+      - key: PORT
+        value: "8080"
+      
+      # Health checks e métricas
+      - key: KC_HEALTH_ENABLED
+        value: "true"
+      - key: KC_METRICS_ENABLED
+        value: "true"
+      
+      # Configuração de Log
       - key: KC_LOG_LEVEL
         value: INFO
-      - key: KC_HTTP_PORT
-        value: 8080
-      - key: PORT
-        value: 8080
-      - key: KC_DB_URL_HOST
-        fromDatabase:
-          name: keycloak-db
-          property: host
-      - key: KC_DB_URL_PORT
-        fromDatabase:
-          name: keycloak-db
-          property: port
-      - key: KC_DB_URL_DATABASE
-        fromDatabase:
-          name: keycloak-db
-          property: database
-      - key: KC_DB_URL_SCHEMA
-        value: public
 
 databases:
   - name: keycloak-db
