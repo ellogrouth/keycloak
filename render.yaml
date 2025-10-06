@@ -3,7 +3,7 @@ services:
     name: keycloak
     env: docker
     dockerfilePath: ./Dockerfile.render
-    plan: starter
+    plan: free
     region: oregon
     branch: main
     healthCheckPath: /health/ready
@@ -38,7 +38,7 @@ services:
       - key: KC_HTTP_ENABLED
         value: "true"
       
-      # Configuração de Porta (Render detecta automaticamente via PORT)
+      # Configuração de Porta 
       - key: KC_HTTP_PORT
         value: "8080"
       - key: PORT
@@ -56,7 +56,7 @@ services:
 
 databases:
   - name: keycloak-db
-    plan: starter
+    plan: free
     region: oregon
     databaseName: keycloak
     user: keycloak_user
