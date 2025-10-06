@@ -2,9 +2,10 @@ FROM quay.io/keycloak/keycloak:26.3.4 AS builder
 
 # Configurações de build para produção
 ENV KC_DB=postgres
+ENV KC_CACHE=local
 
 # Build otimizado do Keycloak
-RUN /opt/keycloak/bin/kc.sh build
+RUN /opt/keycloak/bin/kc.sh build --cache=local
 
 FROM quay.io/keycloak/keycloak:26.3.4
 
@@ -16,6 +17,7 @@ ENV KC_DB=postgres
 ENV KC_HTTP_ENABLED=true
 ENV KC_PROXY_HEADERS=xforwarded
 ENV KC_HOSTNAME_STRICT=false
+ENV KC_CACHE=local
 
 # Configurar porta para o Render
 ENV KC_HTTP_PORT=8080
@@ -28,4 +30,4 @@ EXPOSE 8080
 
 # Iniciar Keycloak em modo produção
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start", "--optimized", "--http-enabled=true", "--hostname-strict=false", "--proxy-headers=xforwarded"]
+CMD ["start", "--optimized", "--http-enabled=true", "--hostname-strict=false", "--proxy-headers=xforwarded", "--cache=local"]
