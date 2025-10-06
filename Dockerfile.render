@@ -5,7 +5,7 @@ ENV KC_DB=postgres
 ENV KC_CACHE=local
 
 # Build otimizado do Keycloak
-RUN /opt/keycloak/bin/kc.sh build --cache=local
+RUN /opt/keycloak/bin/kc.sh build
 
 FROM quay.io/keycloak/keycloak:26.3.4
 
